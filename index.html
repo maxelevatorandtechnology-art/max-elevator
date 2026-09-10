@@ -1,0 +1,858 @@
+```html
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAX Elevator & Technology</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    font-family:Arial,sans-serif;
+    background:#f1f5f9;
+    color:#0f172a;
+}
+.login{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:linear-gradient(135deg,#0f172a,#2563eb);
+}
+.login-box{
+    width:100%;
+    max-width:410px;
+    background:white;
+    padding:32px;
+    border-radius:22px;
+    box-shadow:0 20px 60px #0005;
+    text-align:center;
+}
+.logo{
+    width:80px;height:80px;
+    margin:auto;
+    border-radius:50%;
+    background:#fbbf24;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+}
+.login-box h1{margin:15px 0 5px}
+.login-box p{color:#64748b;margin-bottom:22px}
+input,select{
+    width:100%;
+    padding:14px;
+    margin-bottom:14px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    font-size:15px;
+}
+button{
+    cursor:pointer;
+    border:0;
+}
+.login-btn{
+    width:100%;
+    padding:14px;
+    background:#2563eb;
+    color:white;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+}
+.contact{
+    margin-top:20px;
+    color:#64748b;
+    font-size:12px;
+    line-height:1.7;
+}
+
+/* APP */
+.app{display:none;min-height:100vh}
+.sidebar{
+    position:fixed;
+    left:0;top:0;
+    width:255px;
+    height:100vh;
+    background:#0f172a;
+    color:white;
+    padding:20px 14px;
+    z-index:1000;
+}
+.brand{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:25px;
+}
+.brand-icon{
+    width:45px;height:45px;
+    border-radius:50%;
+    background:#fbbf24;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+.brand h2{font-size:17px}
+.brand small{color:#94a3b8}
+.menu button{
+    width:100%;
+    padding:13px;
+    margin:4px 0;
+    border-radius:9px;
+    text-align:left;
+    background:transparent;
+    color:#cbd5e1;
+    font-size:14px;
+}
+.menu button:hover,
+.menu button.active{
+    background:#2563eb;
+    color:white;
+}
+.logout{background:#dc2626!important;color:white!important;margin-top:20px!important}
+
+.main{margin-left:255px}
+.topbar{
+    height:68px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    border-bottom:1px solid #e2e8f0;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+.mobile-menu{
+    display:none;
+    background:#2563eb;
+    color:white;
+    padding:10px 13px;
+    border-radius:8px;
+    font-size:20px;
+}
+.user{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.avatar{
+    width:40px;height:40px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#2563eb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+.content{padding:25px}
+.page-title{margin-bottom:20px}
+.page-title h1{font-size:26px}
+.page-title p{color:#64748b;margin-top:5px}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:22px;
+}
+.card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 5px 20px #00000008;
+}
+.card p{color:#64748b;font-size:13px}
+.card h2{margin-top:8px}
+
+.table-card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    overflow:hidden;
+}
+.table-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+.btn{
+    background:#2563eb;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+}
+.table-wrap{overflow-x:auto}
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+th,td{
+    padding:13px;
+    text-align:left;
+    border-bottom:1px solid #e2e8f0;
+}
+th{background:#f8fafc}
+.badge{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+.paid{background:#dcfce7;color:#15803d}
+.due{background:#fee2e2;color:#b91c1c}
+.pending{background:#fef3c7;color:#b45309}
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+.service{
+    background:white;
+    padding:22px;
+    border-radius:16px;
+}
+.service-icon{font-size:32px;margin-bottom:10px}
+.service p{color:#64748b;line-height:1.6;margin-top:7px}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0007;
+    z-index:900;
+}
+
+/* TABLET */
+@media(max-width:1100px){
+    .cards{grid-template-columns:repeat(2,1fr)}
+    .services{grid-template-columns:repeat(2,1fr)}
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+    .sidebar.open{transform:translateX(0)}
+    .overlay.open{display:block}
+    .main{margin-left:0}
+    .mobile-menu{display:block}
+    .topbar{padding:0 15px}
+    .content{padding:15px}
+    .cards{grid-template-columns:1fr 1fr;gap:12px}
+    .services{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+    .login-box{padding:25px 20px}
+    .cards{grid-template-columns:1fr}
+    .user span{display:none}
+    .page-title h1{font-size:22px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginPage">
+
+<div class="login-box">
+
+<div class="logo">🛗</div>
+
+<h1>MAX Elevator</h1>
+<p>& Technology</p>
+
+<select id="role">
+<option value="admin">Admin</option>
+<option value="technical">Technical</option>
+<option value="customer">Customer</option>
+</select>
+
+<input id="username" type="text" placeholder="ID">
+
+<input id="password" type="password" placeholder="Password">
+
+<button class="login-btn" onclick="login()">Login</button>
+
+<div class="contact">
+<b>MAX ELEVATOR & TECHNOLOGY</b><br>
+Mokka Tower Under Ground, Nimtola Road,<br>
+Goneshtola, Sadar, Dinajpur<br>
+📞 01711277253<br>
+WhatsApp: 01712030731<br>
+✉ maxelevatorandtechnology@gmail.com
+</div>
+
+</div>
+</div>
+
+
+<!-- APPLICATION -->
+<div class="app" id="app">
+
+<aside class="sidebar" id="sidebar">
+
+<div class="brand">
+<div class="brand-icon">🛗</div>
+<div>
+<h2>MAX Elevator</h2>
+<small>& Technology</small>
+</div>
+</div>
+
+<div class="menu">
+
+<button class="active" onclick="page('dashboard',this)">🏠 Dashboard</button>
+<button onclick="page('customers',this)">👥 Customers</button>
+<button onclick="page('technical',this)">🔧 Technical</button>
+<button onclick="page('lifts',this)">🛗 Lifts</button>
+<button onclick="page('services',this)">🛠 Services</button>
+<button onclick="page('payments',this)">💰 Payments</button>
+<button onclick="page('reports',this)">📊 Reports</button>
+<button onclick="page('settings',this)">⚙ Settings</button>
+<button class="logout" onclick="logout()">🚪 Logout</button>
+
+</div>
+</aside>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<main class="main">
+
+<header class="topbar">
+
+<button class="mobile-menu" onclick="openMenu()">☰</button>
+
+<b id="title">Dashboard</b>
+
+<div class="user">
+<span id="roleName">Admin</span>
+<div class="avatar">M</div>
+</div>
+
+</header>
+
+<div class="content">
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page">
+
+<div class="page-title">
+<h1>Welcome to MAX Elevator</h1>
+<p>Elevator Management & Service System</p>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<p>Total Customers</p>
+<h2>125</h2>
+</div>
+
+<div class="card">
+<p>Total Lifts</p>
+<h2>86</h2>
+</div>
+
+<div class="card">
+<p>Running Services</p>
+<h2>18</h2>
+</div>
+
+<div class="card">
+<p>Total Due</p>
+<h2>৳42,500</h2>
+</div>
+
+</div>
+
+<div class="table-card">
+
+<div class="table-header">
+<h3>Recent Service Records</h3>
+<button class="btn">View All</button>
+</div>
+
+<div class="table-wrap">
+
+<table>
+<thead>
+<tr>
+<th>Customer</th>
+<th>Lift</th>
+<th>Date</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>ABC Building</td>
+<td>Passenger Lift</td>
+<td>10 Sep 2026</td>
+<td>৳5,000</td>
+<td><span class="badge paid">Paid</span></td>
+</tr>
+
+<tr>
+<td>XYZ Hospital</td>
+<td>Hospital Lift</td>
+<td>08 Sep 2026</td>
+<td>৳8,500</td>
+<td><span class="badge due">Due</span></td>
+</tr>
+
+<tr>
+<td>Rahman Residence</td>
+<td>Home Lift</td>
+<td>06 Sep 2026</td>
+<td>৳4,000</td>
+<td><span class="badge paid">Paid</span></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- CUSTOMERS -->
+<section id="customers" class="page" style="display:none">
+
+<div class="page-title">
+<h1>Customers</h1>
+<p>Customer information</p>
+</div>
+
+<div class="table-card">
+
+<div class="table-header">
+<h3>Customer List</h3>
+<button class="btn" onclick="alert('Customer add system will connect to database.')">+ Add</button>
+</div>
+
+<div class="table-wrap">
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Phone</th>
+<th>Location</th>
+<th>Lift</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>ABC Building</td>
+<td>017XXXXXXXX</td>
+<td>Dinajpur</td>
+<td>Passenger Lift</td>
+<td><span class="badge paid">Active</span></td>
+</tr>
+<tr>
+<td>XYZ Hospital</td>
+<td>018XXXXXXXX</td>
+<td>Dinajpur</td>
+<td>Hospital Lift</td>
+<td><span class="badge paid">Active</span></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- TECHNICAL -->
+<section id="technical" class="page" style="display:none">
+
+<div class="page-title">
+<h1>Technical Team</h1>
+<p>Technical staff records</p>
+</div>
+
+<div class="table-card">
+<div class="table-wrap">
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Technical ID</th>
+<th>Phone</th>
+<th>Service</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Technical Member</td>
+<td>TECH-001</td>
+<td>017XXXXXXXX</td>
+<td>ABC Building</td>
+<td><span class="badge pending">Working</span></td>
+</tr>
+</tbody>
+
+</table>
+</div>
+</div>
+
+</section>
+
+
+<!-- LIFTS -->
+<section id="lifts" class="page" style="display:none">
+
+<div class="page-title">
+<h1>Lift Management</h1>
+<p>All lift categories</p>
+</div>
+
+<div class="services">
+
+<div class="service">
+<div class="service-icon">🛗</div>
+<h3>Passenger Lift</h3>
+<p>Modern and safe passenger elevator solutions.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">🏠</div>
+<h3>Home Lift</h3>
+<p>Residential elevator solutions.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">📦</div>
+<h3>Cargo Lift</h3>
+<p>Heavy-duty goods and cargo lifts.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">🏥</div>
+<h3>Hospital Lift</h3>
+<p>Reliable hospital elevator solutions.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">✨</div>
+<h3>Capsule Lift</h3>
+<p>Modern stylish capsule elevators.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">🔄</div>
+<h3>Lift Modernization</h3>
+<p>Upgrade old lifts with modern technology.</p>
+</div>
+
+</div>
+</section>
+
+
+<!-- SERVICES -->
+<section id="services" class="page" style="display:none">
+
+<div class="page-title">
+<h1>Services</h1>
+<p>MAX Elevator services</p>
+</div>
+
+<div class="services">
+
+<div class="service">
+<div class="service-icon">🔧</div>
+<h3>Lift Installation</h3>
+<p>Professional lift installation.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">🛠</div>
+<h3>Maintenance & Servicing</h3>
+<p>Regular maintenance and technical servicing.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">⚙️</div>
+<h3>Genuine Spare Parts</h3>
+<p>Control, electrical, door and lift spare parts.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">🔄</div>
+<h3>Modernization</h3>
+<p>Modernization of old elevator systems.</p>
+</div>
+
+<div class="service">
+<div class="service-icon">📞</div>
+<h3>24/7 Customer Support</h3>
+<p>Fast technical support.</p>
+</div>
+
+</div>
+</section>
+
+
+<!-- PAYMENTS -->
+<section id="payments" class="page" style="display:none">
+
+<div class="page-title">
+<h1>Payments</h1>
+<p>Paid and due records</p>
+</div>
+
+<div class="table-card">
+
+<div class="table-wrap">
+
+<table>
+<thead>
+<tr>
+<th>Customer</th>
+<th>Invoice</th>
+<th>Total</th>
+<th>Paid</th>
+<th>Due</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>ABC Building</td>
+<td>INV-001</td>
+<td>৳50,000</td>
+<td>৳50,000</td>
+<td>৳0</td>
+<td><span class="badge paid">Paid</span></td>
+</tr>
+
+<tr>
+<td>XYZ Hospital</td>
+<td>INV-002</td>
+<td>৳80,000</td>
+<td>৳60,000</td>
+<td>৳20,000</td>
+<td><span class="badge due">Due</span></td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- REPORTS -->
+<section id="reports" class="page" style="display:none">
+
+<div class="page-title">
+<h1>Reports</h1>
+<p>Business reports</p>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<p>Total Services</p>
+<h2>245</h2>
+</div>
+
+<div class="card">
+<p>Total Collection</p>
+<h2>৳8,45,000</h2>
+</div>
+
+<div class="card">
+<p>Total Due</p>
+<h2>৳42,500</h2>
+</div>
+
+<div class="card">
+<p>Active Lifts</p>
+<h2>86</h2>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SETTINGS -->
+<section id="settings" class="page" style="display:none">
+
+<div class="page-title">
+<h1>Settings</h1>
+<p>Company information</p>
+</div>
+
+<div class="table-card">
+
+<h2>MAX ELEVATOR & TECHNOLOGY</h2>
+<br>
+
+<p>
+<b>Address:</b><br>
+Mokka Tower Under Ground, Nimtola Road,
+Goneshtola, Sadar, Dinajpur
+</p>
+
+<br>
+
+<p><b>Phone:</b> 01711277253</p>
+<p><b>WhatsApp:</b> 01712030731</p>
+<p><b>Email:</b> maxelevatorandtechnology@gmail.com</p>
+
+<br>
+
+<p>
+<b>Tagline:</b><br>
+Your Trust, Our Responsibility.
+</p>
+
+</div>
+
+</section>
+
+
+</div>
+</main>
+</div>
+
+
+<script>
+
+/* ADMIN LOGIN */
+function login(){
+
+let role=document.getElementById("role").value;
+let id=document.getElementById("username").value.trim();
+let pass=document.getElementById("password").value.trim();
+
+/* Admin */
+if(role==="admin" && id==="max" && pass==="01712030731"){
+openApp("Admin");
+return;
+}
+
+/* Technical */
+if(role==="technical" && id!=="" && pass!==""){
+openApp("Technical");
+return;
+}
+
+/* Customer */
+if(role==="customer" && id!=="" && pass!==""){
+openApp("Customer");
+return;
+}
+
+alert("Invalid ID or Password");
+}
+
+
+/* OPEN */
+function openApp(role){
+
+document.getElementById("loginPage").style.display="none";
+document.getElementById("app").style.display="block";
+
+document.getElementById("roleName").innerText=role;
+
+localStorage.setItem("maxLogin","true");
+localStorage.setItem("maxRole",role);
+}
+
+
+/* LOGOUT */
+function logout(){
+
+localStorage.removeItem("maxLogin");
+localStorage.removeItem("maxRole");
+
+document.getElementById("app").style.display="none";
+document.getElementById("loginPage").style.display="flex";
+
+document.getElementById("username").value="";
+document.getElementById("password").value="";
+}
+
+
+/* PAGE */
+function page(id,btn){
+
+document.querySelectorAll(".page").forEach(function(p){
+p.style.display="none";
+});
+
+document.getElementById(id).style.display="block";
+
+document.querySelectorAll(".menu button").forEach(function(b){
+b.classList.remove("active");
+});
+
+btn.classList.add("active");
+
+document.getElementById("title").innerText=btn.innerText;
+
+closeMenu();
+}
+
+
+/* MOBILE MENU */
+function openMenu(){
+document.getElementById("sidebar").classList.add("open");
+document.getElementById("overlay").classList.add("open");
+}
+
+function closeMenu(){
+document.getElementById("sidebar").classList.remove("open");
+document.getElementById("overlay").classList.remove("open");
+}
+
+
+/* AUTO LOGIN */
+window.onload=function(){
+
+let logged=localStorage.getItem("maxLogin");
+let role=localStorage.getItem("maxRole");
+
+if(logged==="true" && role){
+openApp(role);
+}
+
+};
+
+</script>
+
+</body>
+</html>
+```
